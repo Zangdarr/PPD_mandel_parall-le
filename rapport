@@ -1,0 +1,32 @@
+AUTHORS : Alexandre Verkyndt 
+	  Julien    Blanquart
+
+Version de mandel : première version parallele : minimale v1.0
+	   	    seconde  version parallele : découpage en petit travaux
+
+Seconde version : on a écrit notre programme avec une architecture de type
+master/slave, le ROOT s'occupe de répartir les taches, alors que les
+slaves s'occupent de calculer les slices.
+
+Le nombre de slices sont déterminés par rapport à une constante definie
+dans le programme.
+
+Quand une des machines a fini son calcul, il envoie le resultat
+correspondant à son numéro de slice qu'il vient de calculer, et le
+master se charge de lui donner la prochaine slice à calculer.
+
+L'avantage de ce fonctionnement permet de diviser encore plus le
+nombre de tache par processeur , mais surtout de bien répartir le
+calcul : chaque processeur n'a pas besoin d'attendre que les autres
+ont fini leur calcul pour en lancer d'autre.
+
+L'inconvénient, c'est qu'on envoie SLICENUMBER messages pendant le
+programme, ce qui peut augmenter beaucoup le temps globale des communications.
+
+Apres avoir ajouté des instructions permettant de mesurer le temps
+d'execution, la version 1 execute l'algorithme en environ 420 ms,
+alors que la version 2 s'execute en environ 140ms, ce qui est 3 fois
+moins que la version 1.
+
+Donc le temps perdu dans les communications supplémentaire est négligeable par 
+rapport au gain du découpage de la tâche en petits travaux.
